@@ -1,9 +1,25 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile, File
+import shutil
+import os
 
-# Uygulamayı oluşturuyoruz
 app = FastAPI()
 
-# Ana sayfaya (root) istek gelince çalışacak fonksiyon
+# Resimlerin kaydedileceği klasör
+UPLOAD_DIR = "uploads"
+os.makedirs(UPLOAD_DIR, exist_ok=True)
+
 @app.get("/")
 def read_root():
-    return {"message": "NutriLens Backend Hazır ve Çalışıyor! 🚀"}
+    return {"message": "NutriLens Backend Calisiyor!"}
+
+@app.post("/analyze")
+async def analyze_image(file: UploadFile = File(...)):
+    # 1. Dosyayı kaydet
+    file_location = f"{UPLOAD_DIR}/{file.filename}"
+    with open(file_location, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+        
+    print(f" ---> RESIM GELDI VE KAYDEDILDI: {file.filename}")
+    
+    # 2. Cevap dön
+    return {"message": "Resim başarıyla alındı!", "dosya": file.filename}
