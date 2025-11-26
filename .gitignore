@@ -1,0 +1,17 @@
+# Mac/Windows sistem dosyaları
+.DS_Store
+Thumbs.db
+
+# Python (Backend)
+__pycache__/
+*.py[cod]
+venv/
+.env
+
+# Node.js / Expo (Frontend)
+node_modules/
+.expo/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
